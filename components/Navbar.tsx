@@ -9,7 +9,38 @@ import { useRouter } from 'next/navigation';
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [cartCount, setCartCount] = useState(0);
   const router = useRouter();
+
+  useEffect(() => {
+    const syncCartCount = () => {
+      const raw = localStorage.getItem('muaaz-cart-items');
+      if (!raw) {
+        setCartCount(0);
+        return;
+      }
+
+      try {
+        const items = JSON.parse(raw) as Array<{ quantity?: number }>;
+        const total = items.reduce(
+          (sum, item) => sum + (item.quantity ?? 0),
+          0
+        );
+        setCartCount(total);
+      } catch {
+        setCartCount(0);
+      }
+    };
+
+    syncCartCount();
+    window.addEventListener('cart-updated', syncCartCount);
+    window.addEventListener('storage', syncCartCount);
+
+    return () => {
+      window.removeEventListener('cart-updated', syncCartCount);
+      window.removeEventListener('storage', syncCartCount);
+    };
+  }, []);
 
   const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -51,6 +82,15 @@ export default function Navbar() {
           </div>
 
           <div className='hidden lg:flex flex-1 items-center justify-end gap-4'>
+            <Link href='/menu'>
+              <Button
+                variant='ghost'
+                className='h-12 rounded-2xl px-5 font-semibold text-orange-700 hover:bg-orange-100/70 dark:text-orange-300 dark:hover:bg-orange-900/30'
+              >
+                Our Menu
+              </Button>
+            </Link>
+
             <div className='relative w-full max-w-sm group'>
               <form onSubmit={handleSearch} className='relative'>
                 <Search className='absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 transition-colors group-focus-within:text-red-600' />
@@ -71,6 +111,11 @@ export default function Navbar() {
                 variant='ghost'
               >
                 <ShoppingCart className='h-6 w-6 text-orange-600 dark:text-orange-400 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors duration-300' />
+                {cartCount > 0 && (
+                  <span className='absolute -right-1 -top-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-linear-to-r from-red-500 to-orange-500 px-1 text-[10px] font-bold text-white'>
+                    {cartCount > 99 ? '99+' : cartCount}
+                  </span>
+                )}
               </Button>
             </Link>
 
@@ -96,10 +141,15 @@ export default function Navbar() {
               <Button
                 variant='ghost'
                 size='icon'
-                className='h-12 w-12 rounded-2xl bg-orange-50/80 hover:bg-orange-100 dark:bg-orange-900/20 dark:hover:bg-orange-900/40 transition-all duration-300 hover:scale-105 cursor-pointer'
+                className='relative h-12 w-12 rounded-2xl bg-orange-50/80 hover:bg-orange-100 dark:bg-orange-900/20 dark:hover:bg-orange-900/40 transition-all duration-300 hover:scale-105 cursor-pointer'
                 aria-label='Open cart'
               >
                 <ShoppingCart className='h-6 w-6 text-orange-600 dark:text-orange-400' />
+                {cartCount > 0 && (
+                  <span className='absolute -right-1 -top-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-linear-to-r from-red-500 to-orange-500 px-1 text-[10px] font-bold text-white'>
+                    {cartCount > 99 ? '99+' : cartCount}
+                  </span>
+                )}
               </Button>
             </Link>
 
@@ -133,6 +183,14 @@ export default function Navbar() {
                 className='h-12 w-full rounded-2xl border border-orange-200/70 dark:border-orange-800/40 bg-orange-50/70 dark:bg-orange-900/15 pl-12 pr-4 text-base text-gray-900 dark:text-gray-100 placeholder:text-gray-400 outline-none transition-all duration-300 focus:border-orange-400 dark:focus:border-orange-600 focus:bg-white dark:focus:bg-orange-900/30 focus:ring-4 focus:ring-orange-200/50 dark:focus:ring-orange-900/40'
               />
             </form>
+
+            <Link
+              href='/menu'
+              className='block w-full p-4 text-center rounded-2xl border-2 border-orange-200 dark:border-orange-700 bg-white/60 hover:bg-orange-50 dark:bg-gray-900/40 dark:hover:bg-orange-900/20 transition-all duration-300 font-semibold text-orange-700 dark:text-orange-300 cursor-pointer'
+              onClick={handleMenuItemClick}
+            >
+              Our Menu
+            </Link>
 
             <Link
               href='/auth?type=login'
