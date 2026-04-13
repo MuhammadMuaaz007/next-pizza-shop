@@ -1,27 +1,46 @@
+'use client';
+
+import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ShoppingCart } from 'lucide-react';
+import { Check, ShoppingCart } from 'lucide-react';
 import { Button } from './ui/button';
-export type ProductCardProduct = {
-  id: string | number;
-  attributeValues: {
-    p_title: { value: string };
-    p_price: { value: number };
-    p_image: { value: { downloadLink: string } };
-    p_description: { value: unknown };
-    p_available?: string;
-  };
+import type { ProductCardProduct } from '@/lib/static-products';
+
+type CartItem = {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
+  image: string;
 };
 
 const ProductCard = ({ product }: { product: ProductCardProduct }) => {
+  const [added, setAdded] = useState(false);
+
   const handleAddToCart = (selectedProduct: ProductCardProduct) => {
-    console.log('Add to cart:', {
-      id: selectedProduct.id,
-      name: selectedProduct.attributeValues.p_title.value || 'Product',
-      price: selectedProduct.attributeValues.p_price.value || 0,
-      quantity: 1,
-      image: selectedProduct.attributeValues.p_image.value.downloadLink,
-    });
+    const storageKey = 'muaaz-cart-items';
+    const existingItems = localStorage.getItem(storageKey);
+    const parsedItems: CartItem[] = existingItems ? JSON.parse(existingItems) : [];
+    const itemId = String(selectedProduct.id);
+    const itemIndex = parsedItems.findIndex((item) => item.id === itemId);
+
+    if (itemIndex >= 0) {
+      parsedItems[itemIndex].quantity += 1;
+    } else {
+      parsedItems.push({
+        id: itemId,
+        name: selectedProduct.attributeValues.p_title.value || 'Product',
+        price: selectedProduct.attributeValues.p_price.value || 0,
+        quantity: 1,
+        image: selectedProduct.attributeValues.p_image.value.downloadLink,
+      });
+    }
+
+    localStorage.setItem(storageKey, JSON.stringify(parsedItems));
+    window.dispatchEvent(new Event('cart-updated'));
+    setAdded(true);
+    setTimeout(() => setAdded(false), 1200);
   };
 
   const availability = product.attributeValues.p_available || 'Unavailable';
@@ -105,8 +124,24 @@ const ProductCard = ({ product }: { product: ProductCardProduct }) => {
               }
             }}
           >
-            <ShoppingCart className='w-5 h-5 mr-2' />
-            {availability === 'Available' ? 'Add to Cart 🍕' : 'Out of Order ❌'}
+            {availability === 'Available' ? (
+              added ? (
+                <>
+                  <Check className='w-5 h-5 mr-2' />
+                  Added to Cart
+                </>
+              ) : (
+                <>
+                  <ShoppingCart className='w-5 h-5 mr-2' />
+                  Add to Cart 🍕
+                </>
+              )
+            ) : (
+              <>
+                <ShoppingCart className='w-5 h-5 mr-2' />
+                Out of Order ❌
+              </>
+            )}
           </Button>
         </div>
 

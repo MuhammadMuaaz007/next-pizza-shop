@@ -1,5 +1,6 @@
 import React from 'react';
-import ProductCard, { type ProductCardProduct } from './ProductCard';
+import ProductCard from './ProductCard';
+import type { ProductCardProduct } from '@/lib/static-products';
 
 type RawProduct = {
   id: string | number;
@@ -37,7 +38,7 @@ const ProductCatalog = ({
         {products?.map((product) => {
           try {
             const transformedProduct: ProductCardProduct = {
-              id: product.id,
+              id: String(product.id),
               attributeValues: {
                 p_description: (() => {
                   const desc = product.attributeValues?.p_description;
