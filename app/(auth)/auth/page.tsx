@@ -2,13 +2,32 @@
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft } from 'lucide-react';
+import { ChevronLeft, LockKeyhole, Mail, UserRound } from 'lucide-react';
 
 export default function AuthPage() {
   const [isSignUp, setIsSignUp] = useState(true);
+  const [signUpForm, setSignUpForm] = useState({
+    name: '',
+    email: '',
+    password: '',
+  });
+  const [signInForm, setSignInForm] = useState({
+    email: '',
+    password: '',
+  });
 
   const toggleForm = () => {
     setIsSignUp(!isSignUp);
+  };
+
+  const handleSignUpSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    console.log('Sign up payload:', signUpForm);
+  };
+
+  const handleSignInSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    console.log('Sign in payload:', signInForm);
   };
 
   return (
@@ -44,12 +63,166 @@ export default function AuthPage() {
           </div>
 
           <div className='pt-1 xs:pt-2'>
-            <Button
-              type='submit'
-              className='w-full h-12 xs:h-13 sm:h-14 bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 hover:from-red-600 hover:via-orange-600 hover:to-yellow-600 text-white text-base xs:text-lg sm:text-xl font-bold rounded-xl xs:rounded-2xl shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] border-0 cursor-pointer'
-            >
-              {isSignUp ? 'Join MuaazPizza Family! 🍕' : 'Welcome Back! 🎉'}
-            </Button>
+            {isSignUp ? (
+              <form
+                onSubmit={handleSignUpSubmit}
+                className='space-y-5 xs:space-y-6 font-sans'
+              >
+                <div className='space-y-2.5'>
+                  <label
+                    htmlFor='name'
+                    className='flex items-center gap-2 text-sm xs:text-base font-semibold text-gray-800 dark:text-gray-100'
+                  >
+                    <UserRound className='h-4 w-4 text-orange-500' />
+                    Full Name
+                  </label>
+                  <div className='relative'>
+                    <UserRound className='pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 xs:h-5 xs:w-5 text-orange-400 dark:text-orange-500' />
+                    <input
+                      id='name'
+                      type='text'
+                      value={signUpForm.name}
+                      onChange={(event) =>
+                        setSignUpForm((previous) => ({
+                          ...previous,
+                          name: event.target.value,
+                        }))
+                      }
+                      placeholder='Enter your full name'
+                      required
+                      className='w-full h-12 xs:h-13 sm:h-14 rounded-xl xs:rounded-2xl border border-orange-200/90 dark:border-orange-800/70 bg-white/95 dark:bg-gray-950/70 pl-11 pr-4 text-sm xs:text-base sm:text-lg font-medium text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 outline-none shadow-sm focus:border-orange-400 focus:ring-4 focus:ring-orange-200/60 dark:focus:border-orange-500 dark:focus:ring-orange-900/40 transition-all duration-200'
+                    />
+                  </div>
+                </div>
+
+                <div className='space-y-2.5'>
+                  <label
+                    htmlFor='signup-email'
+                    className='flex items-center gap-2 text-sm xs:text-base font-semibold text-gray-800 dark:text-gray-100'
+                  >
+                    <Mail className='h-4 w-4 text-orange-500' />
+                    Email
+                  </label>
+                  <div className='relative'>
+                    <Mail className='pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 xs:h-5 xs:w-5 text-orange-400 dark:text-orange-500' />
+                    <input
+                      id='signup-email'
+                      type='email'
+                      value={signUpForm.email}
+                      onChange={(event) =>
+                        setSignUpForm((previous) => ({
+                          ...previous,
+                          email: event.target.value,
+                        }))
+                      }
+                      placeholder='Enter your email'
+                      required
+                      className='w-full h-12 xs:h-13 sm:h-14 rounded-xl xs:rounded-2xl border border-orange-200/90 dark:border-orange-800/70 bg-white/95 dark:bg-gray-950/70 pl-11 pr-4 text-sm xs:text-base sm:text-lg font-medium text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 outline-none shadow-sm focus:border-orange-400 focus:ring-4 focus:ring-orange-200/60 dark:focus:border-orange-500 dark:focus:ring-orange-900/40 transition-all duration-200'
+                    />
+                  </div>
+                </div>
+
+                <div className='space-y-2.5'>
+                  <label
+                    htmlFor='signup-password'
+                    className='flex items-center gap-2 text-sm xs:text-base font-semibold text-gray-800 dark:text-gray-100'
+                  >
+                    <LockKeyhole className='h-4 w-4 text-orange-500' />
+                    Password
+                  </label>
+                  <div className='relative'>
+                    <LockKeyhole className='pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 xs:h-5 xs:w-5 text-orange-400 dark:text-orange-500' />
+                    <input
+                      id='signup-password'
+                      type='password'
+                      value={signUpForm.password}
+                      onChange={(event) =>
+                        setSignUpForm((previous) => ({
+                          ...previous,
+                          password: event.target.value,
+                        }))
+                      }
+                      placeholder='Create a password'
+                      required
+                      className='w-full h-12 xs:h-13 sm:h-14 rounded-xl xs:rounded-2xl border border-orange-200/90 dark:border-orange-800/70 bg-white/95 dark:bg-gray-950/70 pl-11 pr-4 text-sm xs:text-base sm:text-lg font-medium text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 outline-none shadow-sm focus:border-orange-400 focus:ring-4 focus:ring-orange-200/60 dark:focus:border-orange-500 dark:focus:ring-orange-900/40 transition-all duration-200'
+                    />
+                  </div>
+                </div>
+
+                <Button
+                  type='submit'
+                  className='w-full h-12 xs:h-13 sm:h-14 bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 hover:from-red-600 hover:via-orange-600 hover:to-yellow-600 text-white text-base xs:text-lg sm:text-xl font-bold rounded-xl xs:rounded-2xl shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] border-0 cursor-pointer'
+                >
+                  Join MuaazPizza Family! 🍕
+                </Button>
+              </form>
+            ) : (
+              <form
+                onSubmit={handleSignInSubmit}
+                className='space-y-5 xs:space-y-6 font-sans'
+              >
+                <div className='space-y-2.5'>
+                  <label
+                    htmlFor='signin-email'
+                    className='flex items-center gap-2 text-sm xs:text-base font-semibold text-gray-800 dark:text-gray-100'
+                  >
+                    <Mail className='h-4 w-4 text-orange-500' />
+                    Email
+                  </label>
+                  <div className='relative'>
+                    <Mail className='pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 xs:h-5 xs:w-5 text-orange-400 dark:text-orange-500' />
+                    <input
+                      id='signin-email'
+                      type='email'
+                      value={signInForm.email}
+                      onChange={(event) =>
+                        setSignInForm((previous) => ({
+                          ...previous,
+                          email: event.target.value,
+                        }))
+                      }
+                      placeholder='Enter your email'
+                      required
+                      className='w-full h-12 xs:h-13 sm:h-14 rounded-xl xs:rounded-2xl border border-orange-200/90 dark:border-orange-800/70 bg-white/95 dark:bg-gray-950/70 pl-11 pr-4 text-sm xs:text-base sm:text-lg font-medium text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 outline-none shadow-sm focus:border-orange-400 focus:ring-4 focus:ring-orange-200/60 dark:focus:border-orange-500 dark:focus:ring-orange-900/40 transition-all duration-200'
+                    />
+                  </div>
+                </div>
+
+                <div className='space-y-2.5'>
+                  <label
+                    htmlFor='signin-password'
+                    className='flex items-center gap-2 text-sm xs:text-base font-semibold text-gray-800 dark:text-gray-100'
+                  >
+                    <LockKeyhole className='h-4 w-4 text-orange-500' />
+                    Password
+                  </label>
+                  <div className='relative'>
+                    <LockKeyhole className='pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 xs:h-5 xs:w-5 text-orange-400 dark:text-orange-500' />
+                    <input
+                      id='signin-password'
+                      type='password'
+                      value={signInForm.password}
+                      onChange={(event) =>
+                        setSignInForm((previous) => ({
+                          ...previous,
+                          password: event.target.value,
+                        }))
+                      }
+                      placeholder='Enter your password'
+                      required
+                      className='w-full h-12 xs:h-13 sm:h-14 rounded-xl xs:rounded-2xl border border-orange-200/90 dark:border-orange-800/70 bg-white/95 dark:bg-gray-950/70 pl-11 pr-4 text-sm xs:text-base sm:text-lg font-medium text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 outline-none shadow-sm focus:border-orange-400 focus:ring-4 focus:ring-orange-200/60 dark:focus:border-orange-500 dark:focus:ring-orange-900/40 transition-all duration-200'
+                    />
+                  </div>
+                </div>
+
+                <Button
+                  type='submit'
+                  className='w-full h-12 xs:h-13 sm:h-14 bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 hover:from-red-600 hover:via-orange-600 hover:to-yellow-600 text-white text-base xs:text-lg sm:text-xl font-bold rounded-xl xs:rounded-2xl shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] border-0 cursor-pointer'
+                >
+                  Welcome Back! 🎉
+                </Button>
+              </form>
+            )}
           </div>
 
           {/* Toggle form */}
