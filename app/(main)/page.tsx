@@ -1,7 +1,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Clock3, Leaf, ShieldCheck, Sparkles, Quote } from 'lucide-react';
+import { Clock3, Leaf, Quote, ShieldCheck, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import ProductCard from '@/components/ProductCard';
+import { staticProducts } from '@/lib/static-products';
 
 export default function HomePage() {
   return (
@@ -219,6 +221,77 @@ export default function HomePage() {
               </p>
             </article>
           ))}
+        </div>
+      </section>
+
+      <section className='mx-auto max-w-7xl px-4 pb-24 sm:px-6 lg:px-8'>
+        <div className='relative overflow-hidden rounded-3xl border border-orange-300/70 bg-linear-to-br from-orange-200 via-amber-100 to-red-100 p-6 shadow-sm dark:border-orange-800/60 dark:from-orange-950/60 dark:via-orange-900/45 dark:to-red-950/45 sm:p-8'>
+          <div className='pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.55),transparent_45%)] dark:bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_45%)]'></div>
+          <div className='text-center'>
+            <p className='text-xs font-bold tracking-[0.16em] text-orange-900 dark:text-orange-200'>
+              COMMUNITY IMPACT
+            </p>
+            <h2 className='mt-2 text-2xl font-black sm:text-3xl'>
+              <span className='bg-linear-to-r from-red-600 via-orange-500 to-yellow-500 bg-clip-text text-transparent'>
+                Numbers That Show Our Love For Pizza
+              </span>
+            </h2>
+            <p className='mx-auto mt-3 max-w-2xl text-sm text-orange-900/80 dark:text-orange-100/80'>
+              Real numbers from our growing family of pizza lovers across the city.
+            </p>
+          </div>
+
+          <div className='relative mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4'>
+            {[
+              { label: 'Happy Customers', value: '12,000+' },
+              { label: 'Pizzas Delivered', value: '48,000+' },
+              { label: 'Awards Won', value: '25+' },
+              { label: 'Years of Excellence', value: '7+' },
+            ].map((item) => (
+              <div
+                key={item.label}
+                className='rounded-2xl border border-orange-300/70 bg-white/80 p-5 text-center shadow-sm backdrop-blur-sm dark:border-orange-700/60 dark:bg-gray-950/60'
+              >
+                <p className='bg-linear-to-r from-red-600 via-orange-500 to-yellow-500 bg-clip-text text-3xl font-black text-transparent'>
+                  {item.value}
+                </p>
+                <p className='mt-1 text-sm font-semibold text-orange-900 dark:text-orange-100'>
+                  {item.label}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className='mx-auto max-w-7xl px-4 pb-24 sm:px-6 lg:px-8'>
+        <div className='text-center'>
+          <p className='text-xs font-bold tracking-[0.16em] text-orange-700 dark:text-orange-300'>
+            FEATURED MENU
+          </p>
+          <h2 className='mt-2 text-3xl font-black sm:text-4xl'>
+            <span className='bg-linear-to-r from-red-600 via-orange-500 to-yellow-500 bg-clip-text text-transparent'>
+              Chef&apos;s Popular Picks
+            </span>
+          </h2>
+          <p className='mx-auto mt-3 max-w-3xl text-sm leading-relaxed text-gray-600 dark:text-gray-300 sm:text-base'>
+            A few fan favorites made with fresh dough, rich sauces, and premium
+            toppings.
+          </p>
+        </div>
+
+        <div className='mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3'>
+          {staticProducts.slice(0, 3).map((pizza) => (
+            <ProductCard key={pizza.id} product={pizza} />
+          ))}
+        </div>
+
+        <div className='mt-8 text-center'>
+          <Link href='/menu'>
+            <Button className='h-11 rounded-xl border-0 bg-linear-to-r from-red-500 via-orange-500 to-yellow-500 px-6 font-bold text-white hover:from-red-600 hover:via-orange-600 hover:to-yellow-600'>
+              View Full Menu
+            </Button>
+          </Link>
         </div>
       </section>
     </div>
