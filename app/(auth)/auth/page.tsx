@@ -1,11 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, LockKeyhole, Mail, UserRound } from 'lucide-react';
+import Link from 'next/link';
 
 export default function AuthPage() {
   const [isSignUp, setIsSignUp] = useState(true);
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [signUpForm, setSignUpForm] = useState({
     name: '',
     email: '',
@@ -20,14 +23,32 @@ export default function AuthPage() {
     setIsSignUp(!isSignUp);
   };
 
+  useEffect(() => {
+    const timerId = setTimeout(() => {
+      setIsInitialLoading(false);
+    }, 1400);
+
+    return () => {
+      clearTimeout(timerId);
+    };
+  }, []);
+
   const handleSignUpSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log('Sign up payload:', signUpForm);
+    setIsLoading(true);
+    setTimeout(() => {
+      console.log('Sign up payload:', signUpForm);
+      setIsLoading(false);
+    }, 1400);
   };
 
   const handleSignInSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log('Sign in payload:', signInForm);
+    setIsLoading(true);
+    setTimeout(() => {
+      console.log('Sign in payload:', signInForm);
+      setIsLoading(false);
+    }, 1400);
   };
 
   return (
@@ -38,9 +59,13 @@ export default function AuthPage() {
       <div className='relative w-full max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-4xl mx-auto flex flex-col justify-center min-h-screen p-3 xs:p-4 sm:p-6 lg:p-8'>
         <div className='bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm rounded-2xl xs:rounded-3xl shadow-2xl border border-orange-200/50 dark:border-orange-800/50 p-4 xs:p-6 sm:p-8 lg:p-12'>
           {/* Back button */}
-          <div className='mb-4 xs:mb-5 sm:mb-6 lg:mb-8 cursor-pointer inline-flex items-center justify-center w-9 h-9 xs:w-10 xs:h-10 sm:w-12 sm:h-12 rounded-xl xs:rounded-2xl bg-orange-100 dark:bg-orange-900/30 border border-orange-200 dark:border-orange-800 hover:bg-orange-200 dark:hover:bg-orange-900/50 transition-all duration-200 hover:scale-105 active:scale-[0.95]'>
+          <Link
+            href='/'
+            aria-label='Go to home page'
+            className='mb-4 xs:mb-5 sm:mb-6 lg:mb-8 cursor-pointer inline-flex items-center justify-center w-9 h-9 xs:w-10 xs:h-10 sm:w-12 sm:h-12 rounded-xl xs:rounded-2xl bg-orange-100 dark:bg-orange-900/30 border border-orange-200 dark:border-orange-800 hover:bg-orange-200 dark:hover:bg-orange-900/50 transition-all duration-200 hover:scale-105 active:scale-[0.95]'
+          >
             <ChevronLeft className='text-orange-600 dark:text-orange-400 h-4 w-4 xs:h-5 xs:w-5 sm:h-6 sm:w-6' />
-          </div>
+          </Link>
 
           {/* Form header */}
           <div className='text-center mb-6 xs:mb-7 sm:mb-8 lg:mb-10'>
@@ -63,7 +88,22 @@ export default function AuthPage() {
           </div>
 
           <div className='pt-1 xs:pt-2'>
-            {isSignUp ? (
+            {isInitialLoading || isLoading ? (
+              <div className='flex min-h-[18rem] flex-col items-center justify-center gap-5'>
+                <div className='relative h-16 w-16 xs:h-18 xs:w-18'>
+                  <div className='absolute inset-0 rounded-full border-4 border-orange-100/70 dark:border-orange-900/40'></div>
+                  <div className='absolute inset-0 rounded-full border-4 border-transparent border-t-red-500 border-r-orange-500 border-b-yellow-500 animate-spin'></div>
+                  <div className='absolute inset-2 rounded-full bg-white/80 dark:bg-gray-900/80'></div>
+                </div>
+                <p className='text-base xs:text-lg sm:text-xl font-bold bg-gradient-to-r from-red-600 via-orange-500 to-yellow-500 bg-clip-text text-transparent'>
+                  {isInitialLoading
+                    ? 'Preparing your MuaazPizza experience...'
+                    : isSignUp
+                      ? 'Creating your account...'
+                      : 'Signing you in...'}
+                </p>
+              </div>
+            ) : isSignUp ? (
               <form
                 onSubmit={handleSignUpSubmit}
                 className='space-y-5 xs:space-y-6 font-sans'
