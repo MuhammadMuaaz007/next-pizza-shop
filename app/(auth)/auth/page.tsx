@@ -52,7 +52,7 @@ export default function AuthPage() {
   };
 
   return (
-    <div className='min-h-screen bg-gradient-to-br from-red-50/30 via-orange-50/20 to-yellow-50/30 dark:from-red-950/10 dark:via-orange-950/10 dark:to-yellow-950/10'>
+    <div className='min-h-screen bg-linear-to-br from-red-50/30 via-orange-50/20 to-yellow-50/30 dark:from-red-950/10 dark:via-orange-950/10 dark:to-yellow-950/10'>
       {/* Background pattern */}
       <div className='absolute inset-0 bg-[url("data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23f59e0b" fill-opacity="0.05"%3E%3Ccircle cx="30" cy="30" r="4"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")] opacity-30'></div>
 
@@ -76,7 +76,7 @@ export default function AuthPage() {
             </div>
 
             <h2 className='text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-3 xs:mb-4 sm:mb-6 leading-tight'>
-              <span className='bg-gradient-to-r from-red-600 via-orange-500 to-yellow-500 bg-clip-text text-transparent'>
+              <span className='bg-linear-to-r from-red-600 via-orange-500 to-yellow-500 bg-clip-text text-transparent'>
                 {isSignUp ? 'Sign Up' : 'Sign In'}
               </span>
             </h2>
@@ -89,13 +89,13 @@ export default function AuthPage() {
 
           <div className='pt-1 xs:pt-2'>
             {isInitialLoading || isLoading ? (
-              <div className='flex min-h-[18rem] flex-col items-center justify-center gap-5'>
+              <div className='flex min-h-72 flex-col items-center justify-center gap-5'>
                 <div className='relative h-16 w-16 xs:h-18 xs:w-18'>
                   <div className='absolute inset-0 rounded-full border-4 border-orange-100/70 dark:border-orange-900/40'></div>
                   <div className='absolute inset-0 rounded-full border-4 border-transparent border-t-red-500 border-r-orange-500 border-b-yellow-500 animate-spin'></div>
                   <div className='absolute inset-2 rounded-full bg-white/80 dark:bg-gray-900/80'></div>
                 </div>
-                <p className='text-base xs:text-lg sm:text-xl font-bold bg-gradient-to-r from-red-600 via-orange-500 to-yellow-500 bg-clip-text text-transparent'>
+                <p className='text-base xs:text-lg sm:text-xl font-bold bg-linear-to-r from-red-600 via-orange-500 to-yellow-500 bg-clip-text text-transparent'>
                   {isInitialLoading
                     ? 'Preparing your MuaazPizza experience...'
                     : isSignUp
@@ -191,7 +191,7 @@ export default function AuthPage() {
 
                 <Button
                   type='submit'
-                  className='w-full h-12 xs:h-13 sm:h-14 bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 hover:from-red-600 hover:via-orange-600 hover:to-yellow-600 text-white text-base xs:text-lg sm:text-xl font-bold rounded-xl xs:rounded-2xl shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] border-0 cursor-pointer'
+                  className='w-full h-12 xs:h-13 sm:h-14 bg-linear-to-r from-red-500 via-orange-500 to-yellow-500 hover:from-red-600 hover:via-orange-600 hover:to-yellow-600 text-white text-base xs:text-lg sm:text-xl font-bold rounded-xl xs:rounded-2xl shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] border-0 cursor-pointer'
                 >
                   Join MuaazPizza Family! 🍕
                 </Button>
@@ -257,7 +257,7 @@ export default function AuthPage() {
 
                 <Button
                   type='submit'
-                  className='w-full h-12 xs:h-13 sm:h-14 bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 hover:from-red-600 hover:via-orange-600 hover:to-yellow-600 text-white text-base xs:text-lg sm:text-xl font-bold rounded-xl xs:rounded-2xl shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] border-0 cursor-pointer'
+                  className='w-full h-12 xs:h-13 sm:h-14 bg-linear-to-r from-red-500 via-orange-500 to-yellow-500 hover:from-red-600 hover:via-orange-600 hover:to-yellow-600 text-white text-base xs:text-lg sm:text-xl font-bold rounded-xl xs:rounded-2xl shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] border-0 cursor-pointer'
                 >
                   Welcome Back! 🎉
                 </Button>
@@ -274,7 +274,7 @@ export default function AuthPage() {
             </p>
             <Button
               variant='link'
-              className='text-base xs:text-lg sm:text-xl font-bold bg-gradient-to-r from-red-600 via-orange-500 to-yellow-500 bg-clip-text text-transparent hover:from-red-700 hover:via-orange-600 hover:to-yellow-600 transition-all duration-200 p-0 h-auto cursor-pointer active:scale-[0.95]'
+              className='text-base xs:text-lg sm:text-xl font-bold bg-linear-to-r from-red-600 via-orange-500 to-yellow-500 bg-clip-text text-transparent hover:from-red-700 hover:via-orange-600 hover:to-yellow-600 transition-all duration-200 p-0 h-auto cursor-pointer active:scale-[0.95]'
               onClick={toggleForm}
             >
               {isSignUp ? 'Sign in here' : 'Join us today'}
